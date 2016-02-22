@@ -1,3 +1,27 @@
+protocol Remixer {
+    func result(phrases: [String]) -> [String]
+}
+
+class Repeater: Remixer {
+    func result(phrases: [String]) -> [String] {
+        return phrases.map { phrase -> String in
+            return phrase + " " + phrase
+        }
+    }
+}
+
+class Reverser: Remixer {
+    func result(phrases: [String]) -> [String] {
+        return phrases.reverse()
+    }
+}
+
+class Original: Remixer {
+    func result(phrases: [String]) -> [String] {
+        return phrases
+    }
+}
+
 class Song {
     private let lineStart = "This is "
     private let lineEnd = "."
@@ -7,14 +31,8 @@ class Song {
         "the rat that ate"
     ]
     
-    init(songType: String) {
-        if songType == "repeat" {
-            self.phrases = self.phrases.map { phrase -> String in
-                return phrase + " " + phrase
-            }
-        } else if songType == "reverse" {
-            self.phrases = self.phrases.reverse()
-        }
+    init(remixer: Remixer) {
+        self.phrases = remixer.result(self.phrases)
     }
     
     func line(number: Int) -> String {
@@ -31,21 +49,23 @@ class Song {
         return lines.joinWithSeparator("\n")
     }
 }
+let repeater = Repeater()
+let song = Song(remixer: repeater)
 
-let song = Song(songType: "normal")
+//let song = Song(songType: "normal")
 song.line(1)
 song.line(2)
 song.line(3)
 song.recite()
-
-let repeatingSong = Song(songType: "repeat")
-repeatingSong.line(1)
-repeatingSong.line(2)
-repeatingSong.line(3)
-repeatingSong.recite()
-
-let reversingSong = Song(songType: "reverse")
-reversingSong.line(1)
-reversingSong.line(2)
-reversingSong.line(3)
-reversingSong.recite()
+//
+//let repeatingSong = Song(songType: "repeat")
+//repeatingSong.line(1)
+//repeatingSong.line(2)
+//repeatingSong.line(3)
+//repeatingSong.recite()
+//
+//let reversingSong = Song(songType: "reverse")
+//reversingSong.line(1)
+//reversingSong.line(2)
+//reversingSong.line(3)
+//reversingSong.recite()
