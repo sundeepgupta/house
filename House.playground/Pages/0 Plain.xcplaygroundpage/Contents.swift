@@ -7,18 +7,13 @@ class Song {
         "the rat that ate"
     ]
     
-    init(repeats: Bool) {
-        if repeats {
-//            var newPhrases = [String]()
-//            for phrase in self.phrases {
-//                newPhrases.append(phrase + " " + phrase)
-//            }
-//            self.phrases = newPhrases
-            
-            let newPhrases = self.phrases.map { phrase -> String in
+    init(songType: String) {
+        if songType == "repeat" {
+            self.phrases = self.phrases.map { phrase -> String in
                 return phrase + " " + phrase
             }
-            self.phrases = newPhrases
+        } else if songType == "reverse" {
+            self.phrases = self.phrases.reverse()
         }
     }
     
@@ -37,14 +32,20 @@ class Song {
     }
 }
 
-let song = Song(repeats: false)
+let song = Song(songType: "normal")
 song.line(1)
 song.line(2)
 song.line(3)
 song.recite()
 
-let repeatingSong = Song(repeats: true)
+let repeatingSong = Song(songType: "repeat")
 repeatingSong.line(1)
 repeatingSong.line(2)
 repeatingSong.line(3)
 repeatingSong.recite()
+
+let reversingSong = Song(songType: "reverse")
+reversingSong.line(1)
+reversingSong.line(2)
+reversingSong.line(3)
+reversingSong.recite()
